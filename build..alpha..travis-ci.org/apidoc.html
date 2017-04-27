@@ -1,0 +1,503 @@
+<div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a
+
+        href="https://github.com/omnidan/redux-undo"
+
+    >redux-undo (v0.6.1)</a>
+</h1>
+<h4>simple undo/redo functionality for redux state containers</h4>
+<div class="apidocSectionDiv"><a
+    href="#apidoc.tableOfContents"
+    id="apidoc.tableOfContents"
+><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.redux-undo">module redux-undo</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.redux-undo.default">
+            function <span class="apidocSignatureSpan">redux-undo.</span>default
+            <span class="apidocSignatureSpan">(reducer)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.redux-undo.distinctState">
+            function <span class="apidocSignatureSpan">redux-undo.</span>distinctState
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.redux-undo.excludeAction">
+            function <span class="apidocSignatureSpan">redux-undo.</span>excludeAction
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.redux-undo.ifAction">
+            function <span class="apidocSignatureSpan">redux-undo.</span>ifAction
+            <span class="apidocSignatureSpan">(rawActions)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.redux-undo.includeAction">
+            function <span class="apidocSignatureSpan">redux-undo.</span>includeAction
+            <span class="apidocSignatureSpan">(rawActions)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.redux-undo.parseActions">
+            function <span class="apidocSignatureSpan">redux-undo.</span>parseActions
+            <span class="apidocSignatureSpan">(rawActions)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">redux-undo.</span>ActionCreators</span>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">redux-undo.</span>ActionTypes</span>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.redux-undo.ActionCreators">module redux-undo.ActionCreators</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.redux-undo.ActionCreators.jumpToFuture">
+            function <span class="apidocSignatureSpan">redux-undo.ActionCreators.</span>jumpToFuture
+            <span class="apidocSignatureSpan">(index)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.redux-undo.ActionCreators.jumpToPast">
+            function <span class="apidocSignatureSpan">redux-undo.ActionCreators.</span>jumpToPast
+            <span class="apidocSignatureSpan">(index)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.redux-undo.ActionCreators.redo">
+            function <span class="apidocSignatureSpan">redux-undo.ActionCreators.</span>redo
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.redux-undo.ActionCreators.undo">
+            function <span class="apidocSignatureSpan">redux-undo.ActionCreators.</span>undo
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.redux-undo" id="apidoc.module.redux-undo">module redux-undo</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.redux-undo.default" id="apidoc.element.redux-undo.default">
+        function <span class="apidocSignatureSpan">redux-undo.</span>default
+        <span class="apidocSignatureSpan">(reducer)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function undoable(reducer) {
+  var rawConfig = arguments.length &#x3c;= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+  __DEBUG__ = rawConfig.debug;
+
+  var config = {
+    initialState: rawConfig.initialState,
+    initTypes: parseActions(rawConfig.initTypes, [&#x27;@@redux/INIT&#x27;, &#x27;@@INIT&#x27;]),
+    limit: rawConfig.limit,
+    filter: rawConfig.filter || function () {
+      return true;
+    },
+    undoType: rawConfig.undoType || ActionTypes.UNDO,
+    redoType: rawConfig.redoType || ActionTypes.REDO,
+    jumpToPastType: rawConfig.jumpToPastType || ActionTypes.JUMP_TO_PAST,
+    jumpToFutureType: rawConfig.jumpToFutureType || ActionTypes.JUMP_TO_FUTURE
+  };
+  config.history = rawConfig.initialHistory || createHistory(config.initialState);
+
+  if (config.initTypes.length === 0) {
+    console.warn(&#x27;redux-undo: supply at least one action type in initTypes to ensure initial state&#x27;);
+  }
+
+  return function (state, action) {
+    debugStart(action, state);
+    var res = undefined;
+    switch (action.type) {
+      case config.undoType:
+        res = undo(state);
+        debug(&#x27;after undo&#x27;, res);
+        debugEnd();
+        return res ? updateState(state, res) : state;
+
+      case config.redoType:
+        res = redo(state);
+        debug(&#x27;after redo&#x27;, res);
+        debugEnd();
+        return res ? updateState(state, res) : state;
+
+      case config.jumpToPastType:
+        res = jumpToPast(state, action.index);
+        debug(&#x27;after jumpToPast&#x27;, res);
+        debugEnd();
+        return res ? updateState(state, res) : state;
+
+      case config.jumpToFutureType:
+        res = jumpToFuture(state, action.index);
+        debug(&#x27;after jumpToFuture&#x27;, res);
+        debugEnd();
+        return res ? updateState(state, res) : state;
+
+      default:
+        res = reducer(state &#x26;&#x26; state.present, action);
+
+        if (config.initTypes.some(function (actionType) {
+          return actionType === action.type;
+        })) {
+          debug(&#x27;reset history due to init action&#x27;);
+          debugEnd();
+          return wrapState(_extends({}, state, createHistory(res)));
+        }
+
+        if (config.filter &#x26;&#x26; typeof config.filter === &#x27;function&#x27;) {
+          if (!config.filter(action, res, state &#x26;&#x26; state.present)) {
+            debug(&#x27;filter prevented action, not storing it&#x27;);
+            debugEnd();
+            return wrapState(_extends({}, state, {
+              present: res
+            }));
+          }
+        }
+
+        var history = state &#x26;&#x26; state.present !== undefined ? state : config.history;
+        var updatedHistory = insert(history, res, config.limit);
+        debug(&#x27;after insert&#x27;, { history: updatedHistory, free: config.limit - length(updatedHistory) });
+        debugEnd();
+
+        return wrapState(_extends({}, state, updatedHistory));
+    }
+  };
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.redux-undo.distinctState" id="apidoc.element.redux-undo.distinctState">
+        function <span class="apidocSignatureSpan">redux-undo.</span>distinctState
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function distinctState() {
+  return function (action, currentState, previousState) {
+    return currentState !== previousState;
+  };
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.redux-undo.excludeAction" id="apidoc.element.redux-undo.excludeAction">
+        function <span class="apidocSignatureSpan">redux-undo.</span>excludeAction
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function excludeAction() {
+  var rawActions = arguments.length &#x3c;= 0 || arguments[0] === undefined ? [] : arguments[0];
+
+  var actions = parseActions(rawActions);
+  return function (action) {
+    return actions.indexOf(action.type) &#x3c; 0;
+  };
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.redux-undo.ifAction" id="apidoc.element.redux-undo.ifAction">
+        function <span class="apidocSignatureSpan">redux-undo.</span>ifAction
+        <span class="apidocSignatureSpan">(rawActions)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function ifAction(rawActions) {
+  console.error(&#x27;Deprecation Warning: Please change `ifAction` to `includeAction`&#x27;);
+  return includeAction(rawActions);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.redux-undo.includeAction" id="apidoc.element.redux-undo.includeAction">
+        function <span class="apidocSignatureSpan">redux-undo.</span>includeAction
+        <span class="apidocSignatureSpan">(rawActions)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function includeAction(rawActions) {
+  var actions = parseActions(rawActions);
+  return function (action) {
+    return actions.indexOf(action.type) &#x3e;= 0;
+  };
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.redux-undo.parseActions" id="apidoc.element.redux-undo.parseActions">
+        function <span class="apidocSignatureSpan">redux-undo.</span>parseActions
+        <span class="apidocSignatureSpan">(rawActions)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function parseActions(rawActions) {
+  var defaultValue = arguments.length &#x3c;= 1 || arguments[1] === undefined ? [] : arguments[1];
+
+  if (Array.isArray(rawActions)) {
+    return rawActions;
+  } else if (typeof rawActions === &#x27;string&#x27;) {
+    return [rawActions];
+  }
+  return defaultValue;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.redux-undo.ActionCreators" id="apidoc.module.redux-undo.ActionCreators">module redux-undo.ActionCreators</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.redux-undo.ActionCreators.jumpToFuture" id="apidoc.element.redux-undo.ActionCreators.jumpToFuture">
+        function <span class="apidocSignatureSpan">redux-undo.ActionCreators.</span>jumpToFuture
+        <span class="apidocSignatureSpan">(index)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function jumpToFuture(index) {
+  return { type: ActionTypes.JUMP_TO_FUTURE, index: index };
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+perform undo/redo operations on your state:
+
+```js
+store.dispatch(ActionCreators.undo()) // undo the last action
+store.dispatch(ActionCreators.redo()) // redo the last action
+
+store.dispatch(ActionCreators.jumpToPast(index)) // jump to requested index in the past[] array
+store.dispatch(ActionCreators.<span class="apidocCodeKeywordSpan">jumpToFuture</span>(index)) // jump to requested index in the
+future[] array
+```
+
+
+## Configuration
+
+A configuration object can be passed to `undoable()` like this (values shown
+are default values):
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.redux-undo.ActionCreators.jumpToPast" id="apidoc.element.redux-undo.ActionCreators.jumpToPast">
+        function <span class="apidocSignatureSpan">redux-undo.ActionCreators.</span>jumpToPast
+        <span class="apidocSignatureSpan">(index)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function jumpToPast(index) {
+  return { type: ActionTypes.JUMP_TO_PAST, index: index };
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+Then, you can use `store.dispatch()` and the undo/redo action creators to
+perform undo/redo operations on your state:
+
+```js
+store.dispatch(ActionCreators.undo()) // undo the last action
+store.dispatch(ActionCreators.redo()) // redo the last action
+
+store.dispatch(ActionCreators.<span class="apidocCodeKeywordSpan">jumpToPast</span>(index)) // jump to requested index in the past
+[] array
+store.dispatch(ActionCreators.jumpToFuture(index)) // jump to requested index in the future[] array
+```
+
+
+## Configuration
+
+A configuration object can be passed to `undoable()` like this (values shown
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.redux-undo.ActionCreators.redo" id="apidoc.element.redux-undo.ActionCreators.redo">
+        function <span class="apidocSignatureSpan">redux-undo.ActionCreators.</span>redo
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function redo() {
+  return { type: ActionTypes.REDO };
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+```
+
+Then, you can use `store.dispatch()` and the undo/redo action creators to
+perform undo/redo operations on your state:
+
+```js
+store.dispatch(ActionCreators.undo()) // undo the last action
+store.dispatch(ActionCreators.<span class="apidocCodeKeywordSpan">redo</span>()) // redo the last action
+
+store.dispatch(ActionCreators.jumpToPast(index)) // jump to requested index in the past[] array
+store.dispatch(ActionCreators.jumpToFuture(index)) // jump to requested index in the future[] array
+```
+
+
+## Configuration
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.redux-undo.ActionCreators.undo" id="apidoc.element.redux-undo.ActionCreators.undo">
+        function <span class="apidocSignatureSpan">redux-undo.ActionCreators.</span>undo
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function undo() {
+  return { type: ActionTypes.UNDO };
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+import { ActionCreators } from &#x27;redux-undo&#x27;;
+```
+
+Then, you can use `store.dispatch()` and the undo/redo action creators to
+perform undo/redo operations on your state:
+
+```js
+store.dispatch(ActionCreators.<span class="apidocCodeKeywordSpan">undo</span>()) // undo the last action
+store.dispatch(ActionCreators.redo()) // redo the last action
+
+store.dispatch(ActionCreators.jumpToPast(index)) // jump to requested index in the past[] array
+store.dispatch(ActionCreators.jumpToFuture(index)) // jump to requested index in the future[] array
+```
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
